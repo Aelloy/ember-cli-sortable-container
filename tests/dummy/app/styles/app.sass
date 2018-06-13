@@ -1,0 +1,32 @@
+@import "ember-bootstrap/bootstrap"
+
+body
+  padding-top: 100px
+
+.no-select
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+
+.card-body.vertical .alert:last-child
+  margin-bottom: 0
+
+.card-body.horizontal
+  padding-bottom: 5px
+.card-body.horizontal .alert
+  float: left
+  margin-right: 15px
+  &:last-child
+    margin-right: 0
+
+.alert-primary.dragging
+  opacity: 0.4
+
+.alert-success.dragging
+  opacity: 0.4
+  background-color: #EEE
+  border-style: dashed

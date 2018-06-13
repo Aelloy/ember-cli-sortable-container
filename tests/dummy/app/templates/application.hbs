@@ -1,3 +1,83 @@
-<h2 id="title">Welcome to Ember</h2>
+<nav class="navbar fixed-top navbar-dark bg-dark">
+  <span class="navbar-brand mb-0 h1">Ember CLI Sortable Container</span>
+</nav>
 
-{{outlet}}
+<div class="container-fluid">
+  <h1 class="display-4">Sorting examples</h1>
+
+  <div class="row">
+    <div class="col-sm">
+      <h2>Vertical</h2>
+      <div class="card">
+        {{!-- BEGIN-SNIPPET usage-sample --}}
+        {{#sortable-container model class="card-body vertical"
+          lockAxis=lockAxis
+          projection=projection
+          takeOut=takeOut
+          canPick=(action 'canPick')
+          canPut=(action 'canPut')
+          as |author i dragging|}}
+            <div class="alert alert-primary {{if dragging 'dragging'}}">
+              {{author.name}}
+              <button class="float-right btn btn-sm btn-warning {{if author.lock 'active'}}"
+                {{action "lock" author}}>
+                Lock
+              </button>
+            </div>
+        {{/sortable-container}}
+        {{!-- END-SNIPPET --}}
+      </div>
+
+      <h2>Horizontal</h2>
+      <div class="card">
+        {{#sortable-container model class="card-body horizontal"
+          lockAxis=lockAxis
+          projection=projection
+          takeOut=takeOut
+          canPick=(action 'canPick')
+          canPut=(action 'canPut')
+          as |author i dragging|}}
+            <div class="alert alert-success {{if dragging 'dragging'}}">
+              {{#if dragging}}
+                Drop here
+              {{else}}
+                {{author.name}}
+              {{/if}}
+            </div>
+        {{/sortable-container}}
+      </div>
+    </div>
+    <div class="col-sm">
+      <h2>Options</h2>
+      <p>
+        <button class="btn btn-sm btn-primary {{if takeOut 'active'}}" {{action "toggle" "takeOut"}}>takeOut</button>
+        &mdash; if 'true', original item will leave the list, when dragging ghost element out of the container. (default: true)
+      </p>
+      <p>
+        <button class="btn btn-sm btn-primary {{if projection 'active'}}" {{action "toggle" "projection"}}>projection</button>
+        &mdash; in combination with 'takeOut' will use projected coordinates to determing position of the element in the list, when moving ghost element outside of the container. (default: false)
+      </p>
+      <p>
+        <button class="btn btn-sm btn-primary {{if lockAxis 'active'}}" {{action "toggle" "lockAxis"}}>lockAxis</button>
+        &mdash; locks element within container bounds, other options above are ignored. (default: false)
+      </p>
+
+      {{code-snippet name="usage-sample.hbs"}}
+
+      <h4>Actions</h4>
+      <p>
+        <b>canPick</b> &mdash; receives item object, returns boolean telling the component if this item is allowed to drag.
+      </p>
+      <p>
+        <b>canPut</b> &mdash; receives state object '{originalIndex, currentIndex, item, before, after}', returns boolean telling the component if this item is allowed to insert here.
+      </p>
+      {{code-snippet name="guards.js"}}
+
+      <p>
+        <b>onDragStart</b> &mdash; receives state object, returns promise, can be used to add animation.
+      </p>
+
+
+    </div>
+  </div>
+</div>

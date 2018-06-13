@@ -4,7 +4,24 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
-    // Add options here
+    'ember-bootstrap': {
+      bootstrapVersion: 4,
+      importBootstrapCSS: false,
+      whitelist: [],
+      'importBootstrapFont': false
+    },
+    sassOptions: {
+      extension: 'sass'
+    },
+    vendorFiles: {
+      'jquery.js': null
+    },
+    velocityOptions: {
+      enabled: true,
+      ui: true
+    },
+    snippetPaths: ['tests/dummy/app'],
+    snippetSearchPaths: ['tests/dummy/app']
   });
 
   /*

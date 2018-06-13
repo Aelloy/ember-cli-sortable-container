@@ -1,0 +1,15 @@
+{{#sortable-container model class="card-body vertical"
+  lockAxis=lockAxis
+  projection=projection
+  takeOut=takeOut
+  canPick=(action 'canPick')
+  canPut=(action 'canPut')
+  as |author i dragging|}}
+    <div class="alert alert-primary {{if dragging 'dragging'}}">
+      {{author.name}}
+      <button class="float-right btn btn-sm btn-warning {{if author.lock 'active'}}"
+        {{action "lock" author}}>
+        Lock
+      </button>
+    </div>
+{{/sortable-container}}
