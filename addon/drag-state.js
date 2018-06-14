@@ -1,10 +1,10 @@
-import EmberObject, { computed } from '@ember/object';
+import EmberObject from '@ember/object';
 import { findIndex } from './utils/collections';
 import { getOwner } from '@ember/application';
 import { offsetWithin, Rect } from './utils/geometry';
 import { isPresent, isBlank } from '@ember/utils';
 import { alias } from '@ember/object/computed';
-import Velocity from 'velocity';
+import Velocity from 'velocity-animate';
 
 export default EmberObject.extend({
 
@@ -41,7 +41,7 @@ export default EmberObject.extend({
 
   detach() {
     this.get('element').remove();
-    this.set('inDOM', false);
+    this.setProperties({inDOM: false, item: undefined});
   },
 
   move(point, bounds) {
