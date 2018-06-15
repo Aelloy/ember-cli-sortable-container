@@ -1,5 +1,4 @@
 import EmberObject from '@ember/object';
-import { findIndex } from './utils/collections';
 import { getOwner } from '@ember/application';
 import { offsetWithin, Rect } from './utils/geometry';
 import { isPresent, isBlank } from '@ember/utils';
@@ -11,7 +10,7 @@ export default EmberObject.extend({
   items: alias('container.items'),
 
   findTarget(target) {
-    const index = findIndex(this.container.element.children, (el) => el.contains(target));
+    const index = Array.from(this.container.element.children).findIndex((el) => el.contains(target));
     if (index < 0) return false;
 
     this.setProperties({
@@ -36,12 +35,12 @@ export default EmberObject.extend({
   attach() {
     const root = getOwner(this.container).application.rootElement;
     document.querySelector(root).appendChild(this.get('element'));
-    this.set('inDOM', true);
+    this.set('isDragging', true);
   },
 
   detach() {
     this.get('element').remove();
-    this.setProperties({inDOM: false, item: undefined});
+    this.setProperties({isDragging: false, item: undefined});
   },
 
   move(point, bounds) {
@@ -49,8 +48,8 @@ export default EmberObject.extend({
     point.shift(this.get('offset'));
     rect.move(point);
     if (isPresent(bounds)) rect.fit(bounds);
-    Velocity.hook(this.get('element'), 'left', `${rect.left}px`);
-    Velocity.hook(this.get('element'), 'top', `${rect.top}px`);
+    this.get('element').velocity('property', 'left', `${rect.left}px`);
+    this.get('element').velocity('property', 'top', `${rect.top}px`);
   },
 
   drop() {
@@ -81,5 +80,15 @@ export default EmberObject.extend({
 
   nextItem() {
     return this.get('targetIndex') && this.get('items').objectAt(this.get('targetIndex'));
+  },
+
+  reset() {
+    this.setProperties({
+      index: undefined,
+      originalIndex: undefined,
+      originalElement: undefined,
+      item: undefined
+    });
+    return true;
   }
 });

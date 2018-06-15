@@ -16,8 +16,10 @@
           takeOut=takeOut
           canPick=(action 'canPick')
           canPut=(action 'canPut')
+          animateStart=(action 'animateStart')
+          animateEnd=(action 'animateEnd')
           as |author i dragging|}}
-            <div class="alert alert-primary {{if dragging 'dragging'}}">
+            <div class="alert alert-primary {{if dragging 'placeholder'}}">
               {{author.name}}
               <button class="float-right btn btn-sm btn-warning {{if author.lock 'active'}}"
                 {{action "lock" author}}>
@@ -36,8 +38,9 @@
           takeOut=takeOut
           canPick=(action 'canPick')
           canPut=(action 'canPut')
+          animateStart=(action 'animateStart')
           as |author i dragging|}}
-            <div class="alert alert-success {{if dragging 'dragging'}}">
+            <div class="alert alert-success {{if dragging 'placeholder'}}">
               {{#if dragging}}
                 Drop here
               {{else}}
@@ -66,17 +69,17 @@
 
       <h4>Actions</h4>
       <p>
-        <b>canPick</b> &mdash; receives item object, returns boolean telling the component if this item is allowed to drag.
+        <b>canPick</b> &mdash; receives the item object, returns a boolean telling the component if this item is allowed to drag.
       </p>
       <p>
-        <b>canPut</b> &mdash; receives state object '{originalIndex, currentIndex, item, before, after}', returns boolean telling the component if this item is allowed to insert here.
+        <b>canPut</b> &mdash; receives the state object '{originalIndex, currentIndex, item, before, after}', returns a boolean telling the component if this item is allowed to be inserted here.
       </p>
       {{code-snippet name="guards.js"}}
 
       <p>
-        <b>onDragStart</b> &mdash; receives state object, returns promise, can be used to add animation.
+        <b>animateStart</b>, <b>animateEnd</b> &mdash; these actions receive the state object and return a promise; can be used to add animation when starting or finishing dragging.
       </p>
-
+      {{code-snippet name="animate.js"}}
 
     </div>
   </div>

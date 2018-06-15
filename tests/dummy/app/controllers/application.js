@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import Velocity from 'velocity-animate';
 
 export default Controller.extend({
   projection: false,
@@ -25,6 +26,24 @@ export default Controller.extend({
       const next = state.nextItem();
       const prev = state.prevItem();
       return !next || !prev || !(next.get('lock') && prev.get('lock'));
+    },
+    // END-SNIPPET
+
+    // BEGIN-SNIPPET animate
+    animateStart(state) {
+      const transform = {
+        transform: ["rotateZ(-2deg)", "rotateZ(0deg)"],
+        boxShadow: ["3px 3px 10px", "0px 0px 0px"]
+       };
+      return state.get('element').velocity(transform, { duration: 100 });
+    },
+
+    animateEnd(state) {
+      const transform = { 
+        transform: ["rotateZ(0deg)", "rotateZ(-2deg)"],
+        boxShadow: ["0px 0px 0px", "3px 3px 10px"]
+      };
+      return state.get('element').velocity(transform, { duration: 100 });
     }
     // END-SNIPPET
   }

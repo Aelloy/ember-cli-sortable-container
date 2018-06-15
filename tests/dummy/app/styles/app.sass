@@ -23,10 +23,16 @@ body
   &:last-child
     margin-right: 0
 
-.alert-primary.dragging
+.alert-primary, .alert-success
+  cursor: move
+
+.alert-primary.placeholder
   opacity: 0.4
 
-.alert-success.dragging
+.alert-success.placeholder
   opacity: 0.4
   background-color: #EEE
   border-style: dashed
+
+.floating
+  box-shadow: 0 3px 3px rgba(0,0,0,0.15)

@@ -1,5 +1,5 @@
 {{#each items as |item i|}}
-  {{yield item i (eq-item item state.item)}}
+  {{yield item i (is-dragging item state.item state.isDragging)}}
 {{else}}
   {{yield to="inverse"}}
 {{/each}}

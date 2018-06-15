@@ -23,11 +23,9 @@
   },
   "dependencies": {
     "ember-auto-import": "^0.2.2",
-    "ember-cli-htmlbars": "^2.0.3",
-    "broccoli-funnel": "^2.0.1",
-    "broccoli-merge-trees": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
-    "velocity-animate": "^1.5.1"
+    "ember-cli-htmlbars": "^2.0.3",
+    "velocity-animate": "^2.0.5"
   },
   "devDependencies": {
     "bootstrap": "^4.1.1",

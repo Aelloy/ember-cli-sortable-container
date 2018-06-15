@@ -37,17 +37,25 @@ const SortableContainerComponent = Component.extend({
   },
 
   mouseDown(e) {
+    if (e.button != 0) return;
     if (this.get('items.length') == 0) return;
 
-    if (this.get('state').findTarget(e.target) && this.callback('canPick')) {
-      this.get('state').prepare(clientPoint(e));
-      this.updateRects();
-      this.addListeners();
+    if (this.get('state').findTarget(e.target)) {
+      if (this.callback('canPick')) {
+        this.get('state').prepare(clientPoint(e));
+        this.updateRects();
+        this.addListeners();
+      } else {
+        this.get('state').reset();
+      }
     }
   },
 
   dragging(e) {
-    if (!this.get('state.inDOM')) this.get('state').attach();
+    if (!this.get('state.isDragging')) {
+      this.get('state').attach();
+      this.callback('animateStart');
+    }
     this.get('state').move(clientPoint(e), this.get('bounds'));
 
     if (this.canTakeOut() && !this.inContainer())
@@ -64,6 +72,7 @@ const SortableContainerComponent = Component.extend({
   },
 
   dropping() {
+    this.callback('animateEnd');
     this.get('state').drop();
     this.removeListeners();
   },
