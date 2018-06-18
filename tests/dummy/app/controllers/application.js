@@ -39,7 +39,7 @@ export default Controller.extend({
     },
 
     animateEnd(state) {
-      const transform = { 
+      const transform = {
         transform: ["rotateZ(0deg)", "rotateZ(-2deg)"],
         boxShadow: ["0px 0px 0px", "3px 3px 10px"]
       };

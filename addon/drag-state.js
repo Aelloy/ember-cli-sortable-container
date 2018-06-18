@@ -40,7 +40,7 @@ export default EmberObject.extend({
 
   detach() {
     this.get('element').remove();
-    this.setProperties({isDragging: false, item: undefined});
+    this.setProperties({isDragging: false, item: undefined, takenOut: false});
   },
 
   move(point, bounds) {
@@ -58,7 +58,7 @@ export default EmberObject.extend({
 
   takeOut() {
     this.get('container.items').removeObject(this.get('item'));
-    this.setProperties({currentIndex: undefined, takenOut: true});
+    this.setProperties({currentIndex: undefined, index: undefined, takenOut: true});
   },
 
   insertItem() {
