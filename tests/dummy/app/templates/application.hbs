@@ -14,12 +14,16 @@
           lockAxis=lockAxis
           projection=projection
           takeOut=takeOut
+          dragHandle=dragHandle
           canPick=(action 'canPick')
           canPut=(action 'canPut')
           animateStart=(action 'animateStart')
           animateEnd=(action 'animateEnd')
           as |author i dragging|}}
-            <div class="alert alert-primary {{if dragging 'placeholder'}}">
+            <div class="alert alert-primary {{unless dragHandle 'draggable'}} {{if dragging 'placeholder'}}">
+              {{#if dragHandle}}
+                <span class="material-icons drag-handle">drag_indicator</span>
+              {{/if}}
               {{author.name}}
               <button class="float-right btn btn-sm btn-warning {{if author.lock 'active'}}"
                 {{action "lock" author}}>
@@ -36,6 +40,7 @@
           lockAxis=lockAxis
           projection=projection
           takeOut=takeOut
+          dragHandle=dragHandle
           canPick=(action 'canPick')
           canPut=(action 'canPut')
           animateStart=(action 'animateStart')
@@ -44,7 +49,13 @@
               {{#if dragging}}
                 Drop here
               {{else}}
+                {{#if dragHandle}}
+                  <span class="material-icons drag-handle">drag_indicator</span>
+                {{/if}}
                 {{author.name}}
+                {{#if author.lock}}
+                  <span class="material-icons">lock</span>
+                {{/if}}
               {{/if}}
             </div>
         {{/sortable-container}}
@@ -54,15 +65,21 @@
       <h2>Options</h2>
       <p>
         <button class="btn btn-sm btn-primary {{if takeOut 'active'}}" {{action "toggle" "takeOut"}}>takeOut</button>
-        &mdash; if 'true', original item will leave the list, when dragging ghost element out of the container. (default: true)
+        &mdash; if <code>true</code>, the original item is removed from the list if you drag the ghost element out of the container. (Default: <code>true</code>)
       </p>
       <p>
         <button class="btn btn-sm btn-primary {{if projection 'active'}}" {{action "toggle" "projection"}}>projection</button>
-        &mdash; in combination with 'takeOut' will use projected coordinates to determing position of the element in the list, when moving ghost element outside of the container. (default: false)
+        &mdash; if this is <code>true</code> and <code>takeOut</code> is <code>false</code>, the projected coordinates are used to determine the element position in the list while the ghost element is outside of the container. (Default: <code>false</code>)
       </p>
       <p>
         <button class="btn btn-sm btn-primary {{if lockAxis 'active'}}" {{action "toggle" "lockAxis"}}>lockAxis</button>
-        &mdash; locks element within container bounds, other options above are ignored. (default: false)
+        &mdash; locks the element within container bounds; the other options above are ignored. (Default: <code>false</code>)
+      </p>
+
+      <p>
+        <button class="btn btn-sm btn-primary {{if dragHandle 'active'}}" {{action "toggleDragHandle"}}>dragHandle</button>
+        &mdash; optionally, you can specify a class name here, so the items can be only dragged by the element with this class;
+        if not specified, you can drag items by any point. (Default: <code>null</code>)
       </p>
 
       {{code-snippet name="usage-sample.hbs"}}

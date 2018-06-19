@@ -11,8 +11,11 @@ body
   -ms-user-select: none
   user-select: none
 
+.card
+  margin-bottom: 20px
+
 .card-body.vertical
-  min-height: 420px
+  min-height: 444px
 
 .card-body.vertical .alert:last-child
   margin-bottom: 0
@@ -26,7 +29,15 @@ body
     margin-right: 0
 
 .alert-primary, .alert-success
-  cursor: move
+  line-height: 28px
+  &.draggable
+    cursor: move
+  .material-icons
+    font-size: 20px
+    vertical-align: text-top
+  .drag-handle
+    margin-left: -10px
+    cursor: move
 
 .alert-primary.placeholder
   opacity: 0.4

@@ -9,8 +9,10 @@ export default EmberObject.extend({
 
   items: alias('container.items'),
 
-  findTarget(target) {
-    const index = Array.from(this.container.element.children).findIndex((el) => el.contains(target));
+  findTarget(target, dragHandleClass) {
+    const children = Array.from(this.container.element.children);
+    const handles = dragHandleClass ? children.map((el) => el.querySelector(`.${dragHandleClass}`)) : children;
+    const index = handles.findIndex((el) => el && el.contains(target));
     if (index < 0) return false;
 
     this.setProperties({

@@ -5,10 +5,15 @@ export default Controller.extend({
   projection: false,
   takeOut: true,
   lockAxis: false,
+  dragHandle: null,
 
   actions: {
     toggle(prop) {
       this.toggleProperty(prop);
+    },
+
+    toggleDragHandle() {
+      this.set('dragHandle', this.get('dragHandle') ? null : 'drag-handle');
     },
 
     lock(author) {
