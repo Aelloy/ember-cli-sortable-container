@@ -21,12 +21,12 @@ export default Controller.extend({
     },
 
     // BEGIN-SNIPPET guards
-    // Can only pick up item if it's not locked
+    // Can only pick up an item if it's not locked
     canPick({item}) {
       return !item.lock;
     },
 
-    // Here we restrict putting an item between two locked items for example
+    // Here we restrict putting an item between two locked items as an example
     canPut(state) {
       const next = state.nextItem();
       const prev = state.prevItem();
@@ -40,7 +40,7 @@ export default Controller.extend({
         transform: ["rotateZ(-2deg)", "rotateZ(0deg)"],
         boxShadow: ["3px 3px 10px", "0px 0px 0px"]
        };
-      return state.get('element').velocity(transform, { duration: 100 });
+      return Velocity(state.get('element'), transform, { duration: 100 });
     },
 
     animateEnd(state) {
@@ -48,7 +48,7 @@ export default Controller.extend({
         transform: ["rotateZ(0deg)", "rotateZ(-2deg)"],
         boxShadow: ["0px 0px 0px", "3px 3px 10px"]
       };
-      return state.get('element').velocity(transform, { duration: 100 });
+      return Velocity(state.get('element'), transform, { duration: 100 });
     }
     // END-SNIPPET
   }

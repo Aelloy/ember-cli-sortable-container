@@ -9,7 +9,7 @@ const SortableContainerComponent = Component.extend({
   projection: false,
   takeOut: true,
   lockAxis: false,
-  handleClass: null,
+  dragHandle: null,
   // group
   // dragFrom: [],
   // dragTo: [],
@@ -41,14 +41,10 @@ const SortableContainerComponent = Component.extend({
     if (e.button != 0) return;
     if (this.get('items.length') == 0) return;
 
-    if (this.get('state').findTarget(e.target, this.get('dragHandle'))) {
-      if (this.callback('canPick')) {
-        this.get('state').prepare(clientPoint(e));
-        this.updateRects();
-        this.addListeners();
-      } else {
-        this.get('state').reset();
-      }
+    if (this.get('state').findTarget(e.target) && this.callback('canPick')) {
+      this.get('state').prepare(clientPoint(e));
+      this.updateRects();
+      this.addListeners();
     }
   },
 
@@ -146,7 +142,7 @@ const SortableContainerComponent = Component.extend({
     } else {
       return 'vertical';
     }
-  },
+  }
 });
 
 SortableContainerComponent.reopenClass({

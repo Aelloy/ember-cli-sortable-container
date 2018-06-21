@@ -3,16 +3,16 @@ import { getOwner } from '@ember/application';
 import { offsetWithin, Rect } from './utils/geometry';
 import { isPresent, isBlank } from '@ember/utils';
 import { alias } from '@ember/object/computed';
-import Velocity from 'velocity-animate';
 
 export default EmberObject.extend({
 
   items: alias('container.items'),
 
-  findTarget(target, dragHandleClass) {
+  findTarget(target) {
+    if (this.container.get('dragHandle') && !this._isDragHandle(target)) return false;
+
     const children = Array.from(this.container.element.children);
-    const handles = dragHandleClass ? children.map((el) => el.querySelector(`.${dragHandleClass}`)) : children;
-    const index = handles.findIndex((el) => el && el.contains(target));
+    const index = children.findIndex((el) => el.contains(target));
     if (index < 0) return false;
 
     this.setProperties({
@@ -24,24 +24,30 @@ export default EmberObject.extend({
     return true;
   },
 
+  _isDragHandle(el) {
+    return el.classList.contains(this.container.get('dragHandle')) ||
+           (el.parentElement && el.parentElement != this.container.element && this._isDragHandle(el.parentElement));
+  },
+
   prepare(pointer) {
     const rect = Rect.fromElement(this.get('originalElement'));
     const element = this.get('originalElement').cloneNode(true);
     element.style.width = `${rect.width()}px`;
     element.style.height = `${rect.height()}px`;
-    element.style.zIndex = '1050';
     element.style.position = "fixed";
     this.setProperties({rect, element, offset: offsetWithin(pointer, rect)});
   },
 
   attach() {
     const root = getOwner(this.container).application.rootElement;
+    document.querySelector('body').classList.add('no-select');
     document.querySelector(root).appendChild(this.get('element'));
     this.set('isDragging', true);
   },
 
   detach() {
     this.get('element').remove();
+    document.querySelector('body').classList.remove('no-select');
     this.setProperties({isDragging: false, item: undefined, takenOut: false});
   },
 
@@ -50,8 +56,10 @@ export default EmberObject.extend({
     point.shift(this.get('offset'));
     rect.move(point);
     if (isPresent(bounds)) rect.fit(bounds);
-    this.get('element').velocity('property', 'left', `${rect.left}px`);
-    this.get('element').velocity('property', 'top', `${rect.top}px`);
+    window.requestAnimationFrame(() => {
+      this.get('element').style.left = `${rect.left}px`;
+      this.get('element').style.top = `${rect.top}px`;
+    });
   },
 
   drop() {
@@ -60,7 +68,7 @@ export default EmberObject.extend({
 
   takeOut() {
     this.get('container.items').removeObject(this.get('item'));
-    this.setProperties({currentIndex: undefined, index: undefined, takenOut: true});
+    this.setProperties({index: undefined, takenOut: true});
   },
 
   insertItem() {
@@ -82,15 +90,5 @@ export default EmberObject.extend({
 
   nextItem() {
     return this.get('targetIndex') && this.get('items').objectAt(this.get('targetIndex'));
-  },
-
-  reset() {
-    this.setProperties({
-      index: undefined,
-      originalIndex: undefined,
-      originalElement: undefined,
-      item: undefined
-    });
-    return true;
   }
 });

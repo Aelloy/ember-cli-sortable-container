@@ -50,7 +50,9 @@
                 Drop here
               {{else}}
                 {{#if dragHandle}}
-                  <span class="material-icons drag-handle">drag_indicator</span>
+                  {{#unless author.lock}}
+                    <span class="material-icons drag-handle">drag_indicator</span>
+                  {{/unless}}
                 {{/if}}
                 {{author.name}}
                 {{#if author.lock}}
@@ -86,10 +88,10 @@
 
       <h4>Actions</h4>
       <p>
-        <b>canPick</b> &mdash; receives the item object, returns a boolean telling the component if this item is allowed to drag.
+        <b>canPick</b> &mdash; receives the state object that contains the current item as the <code>item</code> property, returns a boolean telling the component if this item can be dragged.
       </p>
       <p>
-        <b>canPut</b> &mdash; receives the state object '{originalIndex, currentIndex, item, before, after}', returns a boolean telling the component if this item is allowed to be inserted here.
+        <b>canPut</b> &mdash; receives the state object <code>{index, originalIndex, item}</code>, returns a boolean telling the component if this item can be inserted here. You can use `state.prevItem()` and `state.nextItem()` to get the items before and after the current position.
       </p>
       {{code-snippet name="guards.js"}}
 
