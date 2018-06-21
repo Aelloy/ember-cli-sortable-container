@@ -35,6 +35,7 @@ export default EmberObject.extend({
     element.style.width = `${rect.width()}px`;
     element.style.height = `${rect.height()}px`;
     element.style.position = "fixed";
+    if (this.container.get('draggedClass')) element.classList.add(this.container.get('draggedClass'));
     this.setProperties({rect, element, offset: offsetWithin(pointer, rect)});
   },
 

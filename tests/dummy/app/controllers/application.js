@@ -35,7 +35,7 @@ export default Controller.extend({
     // END-SNIPPET
 
     // BEGIN-SNIPPET animate
-    animateStart(state) {
+    onDragStart(state) {
       const transform = {
         transform: ["rotateZ(-2deg)", "rotateZ(0deg)"],
         boxShadow: ["3px 3px 10px", "0px 0px 0px"]
@@ -43,7 +43,7 @@ export default Controller.extend({
       return Velocity(state.get('element'), transform, { duration: 100 });
     },
 
-    animateEnd(state) {
+    onDragEnd(state) {
       const transform = {
         transform: ["rotateZ(0deg)", "rotateZ(-2deg)"],
         boxShadow: ["0px 0px 0px", "3px 3px 10px"]

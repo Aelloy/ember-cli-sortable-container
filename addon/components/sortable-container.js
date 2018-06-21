@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import layout from '../templates/components/sortable-container';
 import { clientPoint, joinList, Rect } from '../utils/geometry';
 import DragState from '../drag-state';
-const { min, max, sign } = Math;
+const { min, max, sign, floor } = Math;
 
 const SortableContainerComponent = Component.extend({
   layout,
@@ -19,11 +19,10 @@ const SortableContainerComponent = Component.extend({
   // Default guards
   canPick: () => true,
   canPut: () => true,
-  canDrop: () => true,
 
   // Animation callbacks
-  animateStart: () => Promise.resolve(),
-  animateEnd: () => Promise.resolve(),
+  onDragStart: () => Promise.resolve(),
+  onDragEnd: () => Promise.resolve(),
 
   init() {
     this.set('state', DragState.create({container: this}));
@@ -51,7 +50,7 @@ const SortableContainerComponent = Component.extend({
   dragging(e) {
     if (!this.get('state.isDragging')) {
       this.get('state').attach();
-      this.callback('animateStart');
+      this.callback('onDragStart');
     }
     this.get('state').move(clientPoint(e), this.get('bounds'));
 
@@ -69,7 +68,7 @@ const SortableContainerComponent = Component.extend({
   },
 
   dropping() {
-    this.callback('animateEnd');
+    this.callback('onDragEnd');
     this.get('state').drop();
     this.removeListeners();
   },
@@ -80,7 +79,7 @@ const SortableContainerComponent = Component.extend({
       const ds = this.get('rects').map((r) => r.distance(this.get('state.rect')));
       const delta = ds.indexOf(ds.reduce((acc, d) => min(acc, d)));
       const {x, y} = this.get('state.rect').offset(this.get('rects')[delta]);
-      targetIndex = delta + max(0, sign(this.isVertical() ? y : x));
+      targetIndex = delta + max(0, sign(floor(this.isVertical() ? y : x)));
     }
     return targetIndex;
   },
@@ -118,7 +117,11 @@ const SortableContainerComponent = Component.extend({
       outerBounds: Rect.fromElement(this.element),
       rects: Array.from(this.element.children).map(Rect.fromElement)
     })
-    if (this.get('lockAxis') && this.get('rects.length') > 0) this.setBounds();
+    if (this.get('lockAxis') && this.get('rects.length') > 0) {
+      this.setBounds();
+    } else {
+      this.set('bounds', null);
+    }
   },
 
   setBounds() {

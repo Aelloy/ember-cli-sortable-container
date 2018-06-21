@@ -15,10 +15,11 @@
           projection=projection
           takeOut=takeOut
           dragHandle=dragHandle
+          draggedClass='is-dragged'
           canPick=(action 'canPick')
           canPut=(action 'canPut')
-          animateStart=(action 'animateStart')
-          animateEnd=(action 'animateEnd')
+          onDragStart=(action 'onDragStart')
+          onDragEnd=(action 'onDragEnd')
           as |author i dragging|}}
             <div class="alert alert-primary {{unless dragHandle 'draggable'}} {{if dragging 'placeholder'}}">
               {{#if dragHandle}}
@@ -43,7 +44,7 @@
           dragHandle=dragHandle
           canPick=(action 'canPick')
           canPut=(action 'canPut')
-          animateStart=(action 'animateStart')
+          onDragStart=(action 'onDragStart')
           as |author i dragging|}}
             <div class="alert alert-success {{if dragging 'placeholder'}}">
               {{#if dragging}}
@@ -81,12 +82,22 @@
       <p>
         <button class="btn btn-sm btn-primary {{if dragHandle 'active'}}" {{action "toggleDragHandle"}}>dragHandle</button>
         &mdash; optionally, you can specify a class name here, so the items can be only dragged by the element with this class;
-        if not specified, you can drag items by any point. (Default: <code>null</code>)
+        if not specified, you can drag items by any point. (Default: none)
       </p>
+
+      <p>
+        <button class="btn btn-sm btn-primary">draggedClass</button>
+        &mdash; this option lets you can specify a class name to be added to the element being dragged. You can use this class to define the dragged element style.
+        (By default, no class is added.)
+      </p>
+
 
       {{code-snippet name="usage-sample.hbs"}}
 
       <h4>Actions</h4>
+      <p>
+        By default, any element of the list can be dragged to any position. To implement a more complex behaviour, use the actions listed below.
+      </p>
       <p>
         <b>canPick</b> &mdash; receives the state object that contains the current item as the <code>item</code> property, returns a boolean telling the component if this item can be dragged.
       </p>
@@ -96,7 +107,7 @@
       {{code-snippet name="guards.js"}}
 
       <p>
-        <b>animateStart</b>, <b>animateEnd</b> &mdash; these actions receive the state object and return a promise; can be used to add animation when starting or finishing dragging.
+        <b>onDragStart</b>, <b>onDragEnd</b> &mdash; these actions receive the state object and return a promise; they can be used to add animation when starting or finishing dragging, to save the updated list, etc.
       </p>
       {{code-snippet name="animate.js"}}
 
