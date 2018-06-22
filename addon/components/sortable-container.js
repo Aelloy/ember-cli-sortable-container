@@ -41,6 +41,7 @@ const SortableContainerComponent = Component.extend({
     if (this.get('items.length') == 0) return;
 
     if (this.get('state').findTarget(e.target) && this.callback('canPick')) {
+      this.setIsVertical();
       this.get('state').prepare(clientPoint(e));
       this.updateRects();
       this.addListeners();
@@ -79,7 +80,7 @@ const SortableContainerComponent = Component.extend({
       const ds = this.get('rects').map((r) => r.distance(this.get('state.rect')));
       const delta = ds.indexOf(ds.reduce((acc, d) => min(acc, d)));
       const {x, y} = this.get('state.rect').offset(this.get('rects')[delta]);
-      targetIndex = delta + max(0, sign(floor(this.isVertical() ? y : x)));
+      targetIndex = delta + max(0, sign(floor(this.get('isVertical') ? y : x)));
     }
     return targetIndex;
   },
@@ -126,22 +127,22 @@ const SortableContainerComponent = Component.extend({
 
   setBounds() {
     this.set('bounds', joinList(this.get('rects')));
-    if (this.isVertical()) {
+    if (this.get('isVertical')) {
       this.get('bounds').bottom++;
     } else {
       this.get('bounds').right++;
     }
   },
 
-  isVertical() {
-    const orientation = this.get('orientation') || this._orientation || this.detectOrientation();
-    return orientation === 'vertical';
+  setIsVertical() {
+    const orientation = this.get('orientation') || this.detectOrientation();
+    this.set('isVertical', orientation === 'vertical');
   },
 
   detectOrientation() {
     if (this.element.children.length > 0) {
       const style = window.getComputedStyle(this.element.children[0]);
-      return (style.display === 'block' && style.float === 'none') ? 'vertical' : 'horizontal';
+      return (style.display === 'block' || style.display == 'table' && style.float === 'none') ? 'vertical' : 'horizontal';
     } else {
       return 'vertical';
     }
