@@ -105,7 +105,8 @@
         By default, any element of the list can be dragged to any position. To implement a more complex behaviour, use the actions listed below.
       </p>
       <p>
-        <b>canPick</b> &mdash; receives the state object that contains the current item as the <code>item</code> property, returns a boolean telling the component if this item can be dragged.
+        <b>canPick</b> &mdash; receives the state object that contains the current item as the <code>item</code> property
+        and the clicked HTML elelent as the <code>eventTarget</code> property; returns a boolean telling the component if this item can be dragged.
       </p>
       <p>
         <b>canPut</b> &mdash; receives the state object <code>{index, originalIndex, item}</code>, returns a boolean telling the component if this item can be inserted here. You can use `state.prevItem()` and `state.nextItem()` to get the items before and after the current position.

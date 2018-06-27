@@ -19,7 +19,8 @@ export default EmberObject.extend({
       index,
       originalIndex: index,
       originalElement: this.container.element.children[index],
-      item: this.get('items').objectAt(index)
+      item: this.get('items').objectAt(index),
+      eventTarget: target
     });
     return true;
   },
@@ -86,10 +87,10 @@ export default EmberObject.extend({
   },
 
   prevItem() {
-    return this.get('targetIndex') && this.get('items').objectAt(this.get('targetIndex') - 1);
+    return isPresent(this.get('targetIndex')) && this.get('items').objectAt(this.get('targetIndex') - 1);
   },
 
   nextItem() {
-    return this.get('targetIndex') && this.get('items').objectAt(this.get('targetIndex'));
+    return isPresent(this.get('targetIndex')) && this.get('items').objectAt(this.get('targetIndex'));
   }
 });
