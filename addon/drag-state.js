@@ -20,7 +20,8 @@ export default EmberObject.extend({
       originalIndex: index,
       originalElement: this.container.element.children[index],
       item: this.get('items').objectAt(index),
-      eventTarget: target
+      eventTarget: target,
+      isChanged: false
     });
     return true;
   },
@@ -70,7 +71,7 @@ export default EmberObject.extend({
 
   takeOut() {
     this.get('container.items').removeObject(this.get('item'));
-    this.setProperties({index: undefined, takenOut: true});
+    this.setProperties({index: undefined, takenOut: true, isChanged: true});
   },
 
   insertItem() {
@@ -83,7 +84,7 @@ export default EmberObject.extend({
       this.get('items').removeObject(this.get('item'));
     }
     this.get('items').insertAt(index, this.get('item'));
-    this.setProperties({index, takenOut: false});
+    this.setProperties({index, takenOut: false, isChanged: (index != oldIndex)});
   },
 
   prevItem() {

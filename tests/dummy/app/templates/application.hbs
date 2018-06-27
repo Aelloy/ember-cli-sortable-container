@@ -116,6 +116,11 @@
       <p>
         <b>onDragStart</b>, <b>onDragEnd</b> &mdash; these actions receive the state object and return a promise; they can be used to add animation when starting or finishing dragging, to save the updated list, etc.
       </p>
+      <p>
+        The state object given to the <code>onDragEnd</code> callback contains the <code>isChanged</code> property that becomes <code>true</code>
+        if one or more items were moved to a new position or taken out. (Note: it will stay <code>true</code> if the original order is restored
+        after a sequence of moves.)
+      </p>
       {{code-snippet name="animate.js"}}
 
     </div>

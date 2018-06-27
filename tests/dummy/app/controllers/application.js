@@ -7,6 +7,10 @@ export default Controller.extend({
   lockAxis: false,
   dragHandle: null,
 
+  saveChanges() {
+    // just for callback illustration purposes
+  },
+
   actions: {
     toggle(prop) {
       this.toggleProperty(prop);
@@ -48,6 +52,8 @@ export default Controller.extend({
         transform: ["rotateZ(0deg)", "rotateZ(-2deg)"],
         boxShadow: ["0px 0px 0px", "3px 3px 10px"]
       };
+
+      if (state.get('isChanged')) this.saveChanges();
       return Velocity(state.get('element'), transform, { duration: 100 });
     }
     // END-SNIPPET
