@@ -42,11 +42,17 @@ export class Rect {
   }
 
   distance(rect) {
-    return rdistance(this, rect);
+    const c1 = this.center();
+    const c2 = rect.center();
+    return sqrt(pow(c1.y - c2.y, 2) + pow(c1.x - c2.x, 2));
   }
 
   offset(rect) {
     return rect.center().offset(this.center());
+  }
+
+  offsetWithin({x, y}) {
+    return new Point(x - this.left, y - this.top);
   }
 
   overlap({left, right, top, bottom}) {
@@ -64,7 +70,9 @@ export class Rect {
   }
 
   fit(rect) {
-    this.move(fit(this, rect));
+    const x = max(this.left - max(0, this.right - rect.right), rect.left);
+    const y = max(this.top - max(0, this.bottom - rect.bottom), rect.top);
+    this.move({x, y});
   }
 
   static fromElement(element) {
@@ -73,44 +81,8 @@ export class Rect {
   }
 }
 
-export function offsetWithin({x, y}, {left, top}) {
-  return new Point(x - left, y - top);
-}
-
 export function clientPoint({clientX, clientY}) {
   return new Point(clientX, clientY);
-}
-
-export function shiftPoint({x, y}, {x: dx, y: dy}) {
-  return new Point(x - dx, y - dy);
-}
-
-export function overlap({left: l1, right: r1, top: t1, bottom: b1},
-                        {left: l2, right: r2, top: t2, bottom: b2}) {
-  return max(l1, l2) <= min(r1, r2) && max(t1, t2) <= min(b1, b2);
-}
-
-export function offset(rect1, rect2) {
-  return center(rect1).offset(center(rect2));
-}
-
-export function center({top, bottom, left, right}) {
-  return new Point((right + left) / 2, (bottom + top) / 2);
-}
-
-export function distance({x: x1, y: y1}, {x: x2, y: y2}) {
-  return sqrt(pow(y1 - y2, 2) + pow(x1 - x2, 2));
-}
-
-export function rdistance(r1, r2) {
-  return distance(center(r1), center(r2));
-}
-
-export function fit({left: iLeft, right: iRight, top: iTop, bottom: iBottom},
-                    {left: oLeft, right: oRight, top: oTop, bottom: oBottom}) {
-  let x = max(iLeft - max(0, iRight - oRight), oLeft);
-  let y = max(iTop - max(0, iBottom - oBottom), oTop);
-  return new Point(x, y);
 }
 
 export function join({left: l1, right: r1, top: t1, bottom: b1},
