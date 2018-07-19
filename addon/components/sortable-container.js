@@ -14,7 +14,7 @@ const SortableContainerComponent = Component.extend({
   // dragFrom: [],
   // dragTo: [],
 
-  classNames: ['no-select'],
+  classNames: ['ember-cli-sortable-container', 'no-select'],
 
   // Default guards
   canPick: () => true,

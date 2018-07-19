@@ -70,7 +70,7 @@ export default EmberObject.extend({
   },
 
   takeOut() {
-    this.get('container.items').removeObject(this.get('item'));
+    this.get('items').removeObject(this.get('item'));
     this.setProperties({index: undefined, takenOut: true, isChanged: true});
   },
 

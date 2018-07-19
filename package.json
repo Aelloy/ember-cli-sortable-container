@@ -7,9 +7,9 @@
     "sortable",
     "nojquery"
   ],
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/AutoCloud/ember-cli-sortable-container.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AutoCloud/ember-cli-sortable-container.git"
   },
   "license": "MIT",
   "author": "",
