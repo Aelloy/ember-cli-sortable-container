@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-sortable-container",
   "version": "0.0.1",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Ember CLI sortable containers built without jquery.",
   "keywords": [
     "ember-addon",
     "sortable",
@@ -12,7 +12,10 @@
     "url": "https://github.com/AutoCloud/ember-cli-sortable-container.git"
   },
   "license": "MIT",
-  "author": "",
+  "author": "Ivan Yurov",
+  "contributors": [
+    "Oleg Bisyarin"
+  ],
   "directories": {
     "doc": "doc",
     "test": "tests"

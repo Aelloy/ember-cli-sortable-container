@@ -1,7 +1,7 @@
 ember-cli-sortable-container
 ==============================================================================
 
-[Short description of the addon.]
+No-jQuery approach to implementation of sortable behavior for Ember. A very early version, use at your own risk.
 
 Installation
 ------------------------------------------------------------------------------
@@ -14,7 +14,10 @@ ember install ember-cli-sortable-container
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+Check the dummy application for usage examples and docs:
+
+* `ember serve`
+* Visit [http://localhost:4200](http://localhost:4200).
 
 
 Contributing
