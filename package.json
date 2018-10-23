@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-sortable-container",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Ember CLI sortable containers built without jquery.",
   "keywords": [
     "ember-addon",
@@ -28,7 +28,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "ember-auto-import": "^0.2.2",
+    "ember-auto-import": "^1.2.13",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.3"
   },
